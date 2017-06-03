@@ -1,0 +1,107 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: inhere
+ * Date: 2017/6/1
+ * Time: 下午9:44
+ */
+
+namespace inhere\shm;
+
+/**
+ * Class ShmSv
+ *  - powered by system v shm. require enable  --enable-sysvshm
+ *  - only support *nix system
+ *
+ * @package inhere\shm
+ */
+class ShmSv extends BaseShm
+{
+    /**
+     * The variable key
+     * @var int
+     */
+    private $varKey;
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function init()
+    {
+        if (!self::isSupported()) {
+            throw new \RuntimeException(
+                'To use sysvshm you will need to compile PHP with the --enable-sysvshm parameter in your configure line.',
+                -500
+            );
+        }
+
+        parent::init();
+
+        if (!isset($this->config['varKey']) || ($this->config['varKey'] <= 0)) {
+            throw new \LogicException("Must define the variable key: 'varKey'. (int and gt 0)");
+        }
+
+        $this->varKey = $this->config['varKey'] = (int)$this->config['varKey'];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function open()
+    {
+        $this->shmId = shm_attach($this->key, $this->config['size'], 0644);
+
+        if (!$this->shmId) {
+            throw new \RuntimeException('Create shared memory block failed', -200);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function doWrite($data)
+    {
+        return shm_put_var($this->shmId, $this->varKey, $data);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function doRead($size = 0)
+    {
+        return shm_get_var($this->shmId, $this->varKey);
+    }
+
+    /**
+     * @return bool
+     */
+    public function clear()
+    {
+        return shm_remove_var($this->shmId, $this->varKey);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function close()
+    {
+        shm_detach($this->shmId);
+    }
+
+    /**
+     * remove SHM
+     * @return bool
+     */
+    public function remove()
+    {
+        return shm_remove($this->shmId);
+    }
+
+    /**
+     * @return bool
+     */
+    public static function isSupported()
+    {
+        return function_exists('shm_attach');
+    }
+}
