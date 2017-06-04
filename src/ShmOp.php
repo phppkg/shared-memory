@@ -37,6 +37,16 @@ class ShmOp extends BaseShm
      */
     public function open()
     {
+        /**
+         * resource shmop_open ( int $key , string $flags , int $mode , int $size )
+         * $flags:
+         *      a 访问只读内存段
+         *      c 创建一个新内存段，或者如果该内存段已存在，尝试打开它进行读写
+         *      w 可读写的内存段
+         *      n 创建一个新内存段，如果该内存段已存在，则会失败
+         * $mode: 八进制格式  0655
+         * $size: 开辟的数据大小 字节
+         */
         $this->shmId = shmop_open($this->key, 'c', 0644, $this->config['size']);
 
         if (!$this->shmId) {

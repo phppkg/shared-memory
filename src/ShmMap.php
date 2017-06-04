@@ -96,6 +96,37 @@ class ShmMap implements ShmMapInterface, \ArrayAccess, \Countable, \IteratorAggr
     }
 
     /**
+     * @param $data
+     * @return bool
+     */
+    public function push($data)
+    {
+        if (!$map = $this->getMap()) {
+            $map = [];
+        }
+
+        array_push($map, $data);
+
+        return $this->setMap($map);
+    }
+
+    /**
+     * @return bool|mixed
+     */
+    public function pop()
+    {
+        if (!$map = $this->getMap()) {
+            return false;
+        }
+
+        $val = array_pop($map);
+
+        $this->setMap($map);
+
+        return $val;
+    }
+
+    /**
      * @param array $map
      * @return bool
      */
@@ -160,6 +191,14 @@ class ShmMap implements ShmMapInterface, \ArrayAccess, \Countable, \IteratorAggr
     public function getShm()
     {
         return $this->shm;
+    }
+
+    /**
+     * close
+     */
+    public function close()
+    {
+        $this->shm->close();
     }
 
 //////////////////////////////////////////////////////////////////////
