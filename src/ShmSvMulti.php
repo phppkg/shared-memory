@@ -52,7 +52,7 @@ class ShmSvMulti
     protected $config = [
         'key' => null,
         'size' => 256000,
-        'project' => 'php_shm', // shared memory project
+        'project' => 's', // shared memory project
 
         'locker' => [
             'driver' => Lock::DRIVER_SEM, // please
@@ -63,6 +63,8 @@ class ShmSvMulti
     /**
      * MsgQueue constructor.
      * @param array $config
+     * @throws \RuntimeException
+     * @throws \LogicException
      */
     public function __construct(array $config = [])
     {
@@ -80,6 +82,8 @@ class ShmSvMulti
 
     /**
      * init
+     * @throws \LogicException
+     * @throws \RuntimeException
      */
     protected function init()
     {
@@ -92,7 +96,7 @@ class ShmSvMulti
 
         $this->config['locker']['key'] = $this->key;
 
-        $this->locker = new Lock($this->config['locker']);
+        $this->locker = Lock::make($this->config['locker']);
     }
 
     /**

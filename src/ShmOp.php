@@ -17,8 +17,11 @@ namespace inhere\shm;
  */
 class ShmOp extends BaseShm
 {
+    protected $driver = SharedMemory::DRIVER_OP;
+
     /**
      * {@inheritDoc}
+     * @throws \RuntimeException
      */
     protected function init()
     {
@@ -33,11 +36,11 @@ class ShmOp extends BaseShm
     }
 
     /**
-     * open
+     * {@inheritDoc}
      */
-    public function open()
+    protected function doOpen()
     {
-        /**
+        /*
          * resource shmop_open ( int $key , string $flags , int $mode , int $size )
          * $flags:
          *      a 访问只读内存段
@@ -47,11 +50,7 @@ class ShmOp extends BaseShm
          * $mode: 八进制格式  0655
          * $size: 开辟的数据大小 字节
          */
-        $this->shmId = shmop_open($this->key, 'c', 0644, $this->config['size']);
-
-        if (!$this->shmId) {
-            throw new \RuntimeException('Create shared memory block failed', -200);
-        }
+        return shmop_open($this->key, 'c', 0644, $this->config['size']);
     }
 
     /**
@@ -84,23 +83,28 @@ class ShmOp extends BaseShm
 
     /**
      * close
+     * @throws \RuntimeException
      */
     public function close()
     {
         // Now lets delete the block and close the shared memory segment
-        if (!shmop_delete($this->shmId)) {
+        if (!$this->clear()) {
             throw new \RuntimeException("Couldn't mark shared memory block for deletion.", __LINE__);
         }
 
         shmop_close($this->shmId);
+        $this->shmId = null;
+
+        return true;
     }
 
     /**
      * clear
      */
-    protected function clear()
+    public function clear()
     {
-        $this->write('');
+        return shmop_delete($this->shmId);
+        //return $this->write(0);
     }
 
     /**

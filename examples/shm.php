@@ -6,18 +6,34 @@
  * Time: 下午8:01
  */
 
-use inhere\shm\ShmFactory;
+require dirname(__DIR__) . '/../../autoload.php';
+
+use inhere\shm\SharedMemory;
 use inhere\shm\ShmMap;
 
-$shm = ShmFactory::make([
+$shm = SharedMemory::make([
     'key' => 1,
-    'size' => 512
+    'size' => 1024
 ]);
+$shm->open();
 
-$shm->write('data string');
-$ret = $shm->read();
+printf("Create SHM, driver: %s,key: %s \n", $shm->getDriver(), $shm->getKey());
+//var_dump($shm);
 
-var_dump($ret);
+$ret = $shm->write('data string');
+
+printf("Write data %s\n", $ret ? 'success' : 'fail');
+
+// print_r($shm->getError());
+
+$data = $shm->read();
+
+echo "Read data: $data\n";
+
+$shm->clear();
+$data = $shm->read();
+
+echo "Clear then,Read data: $data\n";
 
 $shmAry = new ShmMap([
     'key' => 2,
@@ -33,3 +49,11 @@ var_dump($shmAry['three'], $shmAry->getMap());
 unset($shmAry['one']);
 
 var_dump($shmAry->getMap());
+
+$shmAry->clear();
+
+var_dump($shmAry->getMap());
+//var_dump($shmAry->getShm());
+
+//$shmAry->close();
+//var_dump($shmAry->getShm());

@@ -25,6 +25,8 @@ class ShmSv extends BaseShm
 
     /**
      * {@inheritDoc}
+     * @throws \RuntimeException
+     * @throws \LogicException
      */
     protected function init()
     {
@@ -47,13 +49,9 @@ class ShmSv extends BaseShm
     /**
      * {@inheritDoc}
      */
-    public function open()
+    protected function doOpen()
     {
-        $this->shmId = shm_attach($this->key, $this->config['size'], 0644);
-
-        if (!$this->shmId) {
-            throw new \RuntimeException('Create shared memory block failed', -200);
-        }
+        return shm_attach($this->key, $this->config['size'], 0644);
     }
 
     /**
@@ -85,7 +83,12 @@ class ShmSv extends BaseShm
      */
     public function close()
     {
-        shm_detach($this->shmId);
+        $this->clear();
+
+        $ret = shm_detach($this->shmId);
+        $this->shmId = null;
+
+        return $ret;
     }
 
     /**

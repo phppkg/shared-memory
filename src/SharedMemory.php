@@ -2,63 +2,56 @@
 /**
  * Created by PhpStorm.
  * User: inhere
- * Date: 2017/6/1
- * Time: 下午8:58
+ * Date: 2017/6/2
+ * Time: 下午8:19
  */
 
 namespace inhere\shm;
 
 /**
- * Class SharedMemory
+ * Class ShmFactory
  * @package inhere\shm
  */
-class SharedMemory implements ShmInterface
+final class SharedMemory
 {
-    /**
-     * @var ShmInterface
-     */
-    private $driver;
+    const DRIVER_OP = 'op'; // require enable --enable-shmop
+    const DRIVER_SV = 'sv'; // require enable  --enable-sysvshm
 
     /**
-     * Lock constructor.
+     * @var array
+     */
+    private static $driverMap = [
+        self::DRIVER_OP => ShmOp::class,
+        self::DRIVER_SV => ShmSv::class,
+    ];
+
+    /**
      * @param array $config
-     * @param string $driverName
+     * @param string $driver
+     * @return ShmInterface
+     * @throws \RuntimeException
      */
-    public function __construct(array $config = [], $driverName = null)
+    public static function make(array $config = [], $driver = null)
     {
-        $this->driver = ShmFactory::make($config, $driverName);
-    }
+        if (!$driver && isset($config['driver'])) {
+            $driver = $config['driver'];
+            unset($config['driver']);
+        }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function open()
-    {
-        $this->driver->open();
-    }
+        /** @var ShmInterface $class */
+        if (!isset(self::$driverMap[$driver])) {
+            foreach (self::$driverMap as $class) {
+                if ($class::isSupported()){
+                    return new $class($config);
+                }
+            }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function write($data)
-    {
-        return $this->driver->write($data);
-    }
+            throw new \RuntimeException('No available SHM driver! MAP: ' . implode(',', self::$driverMap));
+        }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function read($size = 0)
-    {
-        return $this->driver->read($size);
-    }
+        $class = self::$driverMap[$driver];
 
-    /**
-     * {@inheritDoc}
-     */
-    public function close()
-    {
-        $this->driver->close();
+        return new $class($config);
     }
 
     /**
@@ -66,6 +59,20 @@ class SharedMemory implements ShmInterface
      */
     public static function isSupported()
     {
-        return ShmFactory::isSupported();
+        foreach (self::$driverMap as $class) {
+            if ($class::isSupported()){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getDriverMap()
+    {
+        return self::$driverMap;
     }
 }

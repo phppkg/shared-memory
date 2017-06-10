@@ -11,11 +11,13 @@ namespace inhere\shm;
 /**
  * Interface ShmInterface
  * @package inhere\shm
+ *
+ * @property string $driver
  */
 interface ShmInterface
 {
     /**
-     * open resource
+     * open shared memory resource
      */
     public function open();
 
@@ -32,9 +34,41 @@ interface ShmInterface
     public function read($size = 0);
 
     /**
+     * clear
+     * @return bool
+     */
+    public function clear();
+
+    /**
      * close
+     * @return bool
      */
     public function close();
+
+    /**
+     * @return string
+     */
+    public function getDriver(): string;
+
+    /**
+     * @return int
+     */
+    public function getKey(): int;
+
+    /**
+     * @return int
+     */
+    public function getErrCode(): int;
+
+    /**
+     * @return string
+     */
+    public function getErrMsg(): string;
+
+    /**
+     * @return array
+     */
+    public function getError(): array;
 
     /**
      * @return bool

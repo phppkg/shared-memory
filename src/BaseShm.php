@@ -22,6 +22,11 @@ abstract class BaseShm implements ShmInterface
     use LiteConfigTrait;
 
     /**
+     * @var string
+     */
+    protected $driver;
+
+    /**
      * @var LockInterface
      */
     private $locker;
@@ -44,13 +49,23 @@ abstract class BaseShm implements ShmInterface
     protected $config = [
         'key' => null,
         'size' => 256000,
-        'project' => 'php_shm', // shared memory project
+        'project' => 's', // shared memory project id. only allow one char
 
         'locker' => [
             'driver' => '', // allow: File Database Memcache Semaphore
             'tmpDir' => '/tmp', // tmp path, if use FileLock
         ],
     ];
+
+    /**
+     * @var int
+     */
+    private $errCode = 0;
+
+    /**
+     * @var string
+     */
+    private $errMsg;
 
     /**
      * MsgQueue constructor.
@@ -65,6 +80,8 @@ abstract class BaseShm implements ShmInterface
 
     /**
      * init
+     * @throws \LogicException
+     * @throws \RuntimeException
      */
     protected function init()
     {
@@ -77,25 +94,60 @@ abstract class BaseShm implements ShmInterface
 
         $this->config['locker']['key'] = $this->key;
 
-        $this->locker = new Lock($this->config['locker']);
+        $this->locker = Lock::make($this->config['locker']);
     }
+
+    /**
+     * {@inheritDoc}
+     * @throws \RuntimeException
+     */
+    public function open()
+    {
+        try {
+            // open
+            $this->shmId = $this->doOpen();
+        } catch (\Exception $e) {
+            $this->errCode = $e->getCode();
+            $this->errMsg = $e->getMessage();
+        }
+
+        if (!$this->shmId) {
+            throw new \RuntimeException('Create shared memory block failed', -200);
+        }
+    }
+
+    /**
+     * do open shared memory
+     * @return resource
+     */
+    abstract protected function doOpen();
 
     /**
      * write data to SHM
      * @param string $data
      * @return bool
+     * @throws \LogicException
      */
     public function write($data)
     {
+        if (null === $this->shmId) {
+            throw new \LogicException('Please open shared memory use open() before write.');
+        }
+
         $ret = false;
 
-        // lock
-        if ($this->lock($this->key)) {
-            // write data
-            $ret = $this->doWrite($data);
+        try {
+            // lock
+            if ($this->lock($this->key)) {
+                // write data
+                $ret = $this->doWrite($data);
 
-            // unlock
-            $this->unlock($this->key);
+                // unlock
+                $this->unlock($this->key);
+            }
+        } catch (\Exception $e) {
+            $this->errCode = $e->getCode();
+            $this->errMsg = $e->getMessage();
         }
 
         return $ret;
@@ -111,17 +163,27 @@ abstract class BaseShm implements ShmInterface
      * read data form SHM
      * @param int $size
      * @return string
+     * @throws \LogicException
      */
     public function read($size = 0)
     {
+        if (null === $this->shmId) {
+            throw new \LogicException('Please open shared memory use open() before read.');
+        }
+
         $ret = false;
 
-        // lock
-        if ($this->lock($this->key)) {
-            $ret = $this->doRead($size);
+        try {
+            // lock
+            if ($this->lock($this->key)) {
+                $ret = $this->doRead($size);
 
-            // unlock
-            $this->unlock($this->key);
+                // unlock
+                $this->unlock($this->key);
+            }
+        } catch (\Exception $e) {
+            $this->errCode = $e->getCode();
+            $this->errMsg = $e->getMessage();
         }
 
         return $ret;
@@ -157,9 +219,21 @@ abstract class BaseShm implements ShmInterface
     }
 
     /**
+     * @return array
+     */
+    public function getError(): array
+    {
+        return [$this->errCode, $this->errMsg];
+    }
+
+//////////////////////////////////////////////////////////////////////
+/// getter/setter method
+//////////////////////////////////////////////////////////////////////
+
+    /**
      * @return int
      */
-    public function getKey()
+    public function getKey(): int
     {
         return $this->key;
     }
@@ -170,5 +244,45 @@ abstract class BaseShm implements ShmInterface
     public function getShmId()
     {
         return $this->shmId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDriver(): string
+    {
+        return $this->driver;
+    }
+
+    /**
+     * @return int
+     */
+    public function getErrCode(): int
+    {
+        return $this->errCode;
+    }
+
+    /**
+     * @param int $errCode
+     */
+    public function setErrCode(int $errCode)
+    {
+        $this->errCode = $errCode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getErrMsg(): string
+    {
+        return $this->errMsg;
+    }
+
+    /**
+     * @param string $errMsg
+     */
+    public function setErrMsg(string $errMsg)
+    {
+        $this->errMsg = $errMsg;
     }
 }

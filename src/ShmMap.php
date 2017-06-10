@@ -27,10 +27,11 @@ class ShmMap implements ShmMapInterface, \ArrayAccess, \Countable, \IteratorAggr
      * ShmOpMap constructor.
      * @param array $config
      * @param null|string $driver
+     * @throws \RuntimeException
      */
     public function __construct(array $config = [], $driver = null)
     {
-        $this->shm = ShmFactory::make($config, $driver);
+        $this->shm = SharedMemory::make($config, $driver);
         $this->shm->open();
     }
 
@@ -96,10 +97,11 @@ class ShmMap implements ShmMapInterface, \ArrayAccess, \Countable, \IteratorAggr
     }
 
     /**
+     * push elem to first
      * @param $data
      * @return bool
      */
-    public function push($data)
+    public function lPush($data)
     {
         if (!$map = $this->getMap()) {
             $map = [];
@@ -111,16 +113,46 @@ class ShmMap implements ShmMapInterface, \ArrayAccess, \Countable, \IteratorAggr
     }
 
     /**
+     * push elem to last
+     * @param $data
+     * @return bool
+     */
+    public function rPush($data)
+    {
+        if (!$map = $this->getMap()) {
+            $map = [];
+        }
+
+        $map[] = $data;
+
+        return $this->setMap($map);
+    }
+
+    /**
      * @return bool|mixed
      */
-    public function pop()
+    public function lPop()
+    {
+        if (!$map = $this->getMap()) {
+            return false;
+        }
+
+        $val = array_shift($map);
+        $this->setMap($map);
+
+        return $val;
+    }
+
+    /**
+     * @return bool|mixed
+     */
+    public function rPop()
     {
         if (!$map = $this->getMap()) {
             return false;
         }
 
         $val = array_pop($map);
-
         $this->setMap($map);
 
         return $val;
@@ -191,6 +223,22 @@ class ShmMap implements ShmMapInterface, \ArrayAccess, \Countable, \IteratorAggr
     public function getShm()
     {
         return $this->shm;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDriver()
+    {
+        return $this->shm->getDriver();
+    }
+
+    /**
+     * clear data
+     */
+    public function clear()
+    {
+        $this->shm->clear();
     }
 
     /**
