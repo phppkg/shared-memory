@@ -20,21 +20,32 @@ $shm->open();
 printf("Create SHM, driver: %s,key: %s \n", $shm->getDriver(), $shm->getKey());
 //var_dump($shm);
 
-$ret = $shm->write('data string');
+$raw = 'first';
+$ret = $shm->write($raw);
 
-printf("Write data %s\n", $ret ? 'success' : 'fail');
+printf("#1 Write data [$raw] %s\n", $ret ? 'success' : 'fail');
 
 // print_r($shm->getError());
 
 $data = $shm->read();
 
-echo "Read data: $data\n";
+echo "#1 Read data: $data\n";
 
-$shm->clear();
+$raw = 'second';
+$shm->write($raw);
+printf("#2 Write data [$raw] %s\n", $ret ? 'success' : 'fail');
+
 $data = $shm->read();
 
-echo "Clear then,Read data: $data\n";
+echo "#2 Read data: $data\n";
 
+$shm->clear();
+echo "Clear data\n";
+
+$data = $shm->read();
+
+echo "Now,Read data: $data\n";
+die;
 $shmAry = new ShmMap([
     'key' => 2,
     'size' => 512
@@ -50,10 +61,10 @@ unset($shmAry['one']);
 
 var_dump($shmAry->getMap());
 
-$shmAry->clear();
+//$shmAry->clear();
 
 var_dump($shmAry->getMap());
 //var_dump($shmAry->getShm());
 
-//$shmAry->close();
+$shmAry->close();
 //var_dump($shmAry->getShm());

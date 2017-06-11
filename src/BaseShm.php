@@ -160,6 +160,28 @@ abstract class BaseShm implements ShmInterface
     abstract protected function doWrite($data);
 
     /**
+     * @param string $data
+     * @return bool
+     * @throws \LogicException
+     */
+    public function prepend($data)
+    {
+        return $this->write($data . $this->read());
+    }
+
+    /**
+     * @param string $data
+     * @return bool
+     * @throws \LogicException
+     */
+    public function append($data)
+    {
+        $old = $this->read();
+
+        return $this->write($old . $data);
+    }
+
+    /**
      * read data form SHM
      * @param int $size
      * @return string
@@ -171,7 +193,7 @@ abstract class BaseShm implements ShmInterface
             throw new \LogicException('Please open shared memory use open() before read.');
         }
 
-        $ret = false;
+        $ret = '';
 
         try {
             // lock
@@ -182,6 +204,7 @@ abstract class BaseShm implements ShmInterface
                 $this->unlock($this->key);
             }
         } catch (\Exception $e) {
+            $ret = false;
             $this->errCode = $e->getCode();
             $this->errMsg = $e->getMessage();
         }

@@ -28,6 +28,18 @@ interface ShmInterface
     public function write($data);
 
     /**
+     * @param string $data
+     * @return bool
+     */
+    public function prepend($data);
+
+    /**
+     * @param string $data
+     * @return bool
+     */
+    public function append($data);
+
+    /**
      * @param int $size
      * @return string
      */

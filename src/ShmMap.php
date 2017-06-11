@@ -186,6 +186,15 @@ class ShmMap implements ShmMapInterface, \ArrayAccess, \Countable, \IteratorAggr
     }
 
     /**
+     * alias of getMap()
+     * @return array
+     */
+    public function all()
+    {
+        return $this->getMap();
+    }
+
+    /**
      * get map data
      * @return array
      */
