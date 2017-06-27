@@ -17,8 +17,6 @@ namespace inhere\shm;
  */
 class ShmOp extends BaseShm
 {
-    protected $driver = SharedMemory::DRIVER_OP;
-
     /**
      * {@inheritDoc}
      * @throws \RuntimeException
@@ -31,6 +29,8 @@ class ShmOp extends BaseShm
                 -500
             );
         }
+
+        $this->driver = SharedMemory::DRIVER_OP;
 
         parent::init();
     }

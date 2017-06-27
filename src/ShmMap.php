@@ -9,7 +9,7 @@
 namespace inhere\shm;
 
 /**
- * Class ShmOpMap 可以当做是共享内存的数组结构
+ * Class ShmOpMap 可以当做是共享内存的数组结构(读取都会自动加锁)
  *  - shared map(array) structure.
  *  - require enable --enable-shmop
  *  - support *nix and windows
@@ -107,7 +107,7 @@ class ShmMap implements ShmMapInterface, \ArrayAccess, \Countable, \IteratorAggr
             $map = [];
         }
 
-        array_push($map, $data);
+        array_unshift($map, $data);
 
         return $this->setMap($map);
     }
@@ -204,7 +204,7 @@ class ShmMap implements ShmMapInterface, \ArrayAccess, \Countable, \IteratorAggr
             return [];
         }
 
-        return unserialize(trim($read));
+        return unserialize(trim($read), ['allowed_classes' => false]);
     }
 
     /**

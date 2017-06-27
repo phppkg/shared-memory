@@ -70,6 +70,8 @@ abstract class BaseShm implements ShmInterface
     /**
      * MsgQueue constructor.
      * @param array $config
+     * @throws \LogicException
+     * @throws \RuntimeException
      */
     public function __construct(array $config = [])
     {

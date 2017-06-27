@@ -37,6 +37,8 @@ class ShmSv extends BaseShm
             );
         }
 
+        $this->driver = SharedMemory::DRIVER_SV;
+
         parent::init();
 
         if (!isset($this->config['varKey']) || ($this->config['varKey'] <= 0)) {
