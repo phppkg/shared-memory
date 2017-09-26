@@ -6,10 +6,10 @@
  * Time: 下午9:44
  */
 
-namespace inhere\shm;
+namespace Inhere\Shm;
 use inhere\library\helpers\PhpHelper;
-use inhere\lock\Lock;
-use inhere\lock\LockInterface;
+use Inhere\Lock\Lock;
+use Inhere\Lock\LockInterface;
 use inhere\library\traits\LiteConfigTrait;
 
 /**
@@ -17,7 +17,7 @@ use inhere\library\traits\LiteConfigTrait;
  *  - powered by system v shm. require enable  --enable-sysvshm
  *  - only support *nix system
  *
- * @package inhere\shm
+ * @package Inhere\Shm
  */
 class ShmSvMulti
 {

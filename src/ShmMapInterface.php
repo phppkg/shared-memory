@@ -6,11 +6,11 @@
  * Time: 上午12:55
  */
 
-namespace inhere\shm;
+namespace Inhere\Shm;
 
 /**
  * Interface ShmMapInterface - 可以当做是共享内存的数组结构
- * @package inhere\shm
+ * @package Inhere\Shm
  */
 interface ShmMapInterface
 {

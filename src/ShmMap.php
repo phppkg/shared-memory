@@ -6,7 +6,7 @@
  * Time: 下午9:43
  */
 
-namespace inhere\shm;
+namespace Inhere\Shm;
 
 /**
  * Class ShmOpMap 可以当做是共享内存的数组结构(读取都会自动加锁)
@@ -14,7 +14,7 @@ namespace inhere\shm;
  *  - require enable --enable-shmop
  *  - support *nix and windows
  *
- * @package inhere\shm
+ * @package Inhere\Shm
  */
 class ShmMap implements ShmMapInterface, \ArrayAccess, \Countable, \IteratorAggregate
 {

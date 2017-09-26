@@ -6,14 +6,14 @@
  * Time: 下午9:44
  */
 
-namespace inhere\shm;
+namespace Inhere\Shm;
 
 /**
  * Class ShmSv
  *  - powered by system v shm. require enable  --enable-sysvshm
  *  - only support *nix system
  *
- * @package inhere\shm
+ * @package Inhere\Shm
  */
 class ShmSv extends BaseShm
 {

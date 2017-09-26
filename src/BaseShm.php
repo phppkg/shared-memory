@@ -6,16 +6,16 @@
  * Time: 下午9:46
  */
 
-namespace inhere\shm;
+namespace Inhere\Shm;
 
-use inhere\lock\Lock;
-use inhere\lock\LockInterface;
+use Inhere\Lock\Lock;
+use Inhere\Lock\LockInterface;
 use inhere\library\helpers\PhpHelper;
 use inhere\library\traits\LiteConfigTrait;
 
 /**
  * Class BaseShm
- * @package inhere\shm
+ * @package Inhere\Shm
  */
 abstract class BaseShm implements ShmInterface
 {

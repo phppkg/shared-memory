@@ -33,8 +33,8 @@ git clone https://github.com/inhere/php-shared-memory.git // github
 
 ```php
 
-use inhere\shm\ShmFactory;
-use inhere\shm\ShmMap;
+use Inhere\Shm\ShmFactory;
+use Inhere\Shm\ShmMap;
 
 $shm = ShmFactory::make([
     'key' => 1,

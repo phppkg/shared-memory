@@ -6,11 +6,11 @@
  * Time: 下午8:19
  */
 
-namespace inhere\shm;
+namespace Inhere\Shm;
 
 /**
  * Class ShmFactory
- * @package inhere\shm
+ * @package Inhere\Shm
  */
 final class SharedMemory
 {

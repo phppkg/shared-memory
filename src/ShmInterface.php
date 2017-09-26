@@ -6,11 +6,11 @@
  * Time: 下午7:40
  */
 
-namespace inhere\shm;
+namespace Inhere\Shm;
 
 /**
  * Interface ShmInterface
- * @package inhere\shm
+ * @package Inhere\Shm
  *
  * @property string $driver
  */
