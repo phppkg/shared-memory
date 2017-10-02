@@ -10,8 +10,8 @@ namespace Inhere\Shm;
 
 use Inhere\Lock\Lock;
 use Inhere\Lock\LockInterface;
-use inhere\library\helpers\PhpHelper;
-use inhere\library\traits\LiteConfigTrait;
+use Inhere\Library\Helpers\PhpHelper;
+use Inhere\Library\Traits\LiteConfigTrait;
 
 /**
  * Class BaseShm

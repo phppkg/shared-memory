@@ -7,10 +7,10 @@
  */
 
 namespace Inhere\Shm;
-use inhere\library\helpers\PhpHelper;
+use Inhere\Library\Helpers\PhpHelper;
 use Inhere\Lock\Lock;
 use Inhere\Lock\LockInterface;
-use inhere\library\traits\LiteConfigTrait;
+use Inhere\Library\Traits\LiteConfigTrait;
 
 /**
  * Class ShmSvMulti
