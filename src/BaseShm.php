@@ -10,8 +10,8 @@ namespace Inhere\Shm;
 
 use Inhere\Lock\Lock;
 use Inhere\Lock\LockInterface;
-use Inhere\Library\Helpers\PhpHelper;
-use Inhere\Library\Traits\LiteConfigTrait;
+use Inhere\Lock\SemaphoreLock;
+use MyLib\SimpleConfig\LiteConfigTrait;
 
 /**
  * Class BaseShm
@@ -91,7 +91,7 @@ abstract class BaseShm implements ShmInterface
             $this->key = (int)$this->config['key'];
         } else {
             // 定义共享内存
-            $this->key = $this->config['key'] = PhpHelper::ftok(__FILE__, $this->config['project']);
+            $this->key = $this->config['key'] = SemaphoreLock::ftok(__FILE__, $this->config['project']);
         }
 
         $this->config['locker']['key'] = $this->key;
@@ -130,7 +130,7 @@ abstract class BaseShm implements ShmInterface
      * @return bool
      * @throws \LogicException
      */
-    public function write($data)
+    public function write($data): bool
     {
         if (null === $this->shmId) {
             throw new \LogicException('Please open shared memory use open() before write.');
@@ -159,7 +159,7 @@ abstract class BaseShm implements ShmInterface
      * @param string $data
      * @return bool
      */
-    abstract protected function doWrite($data);
+    abstract protected function doWrite($data): bool;
 
     /**
      * @param string $data
@@ -189,7 +189,7 @@ abstract class BaseShm implements ShmInterface
      * @return string
      * @throws \LogicException
      */
-    public function read($size = 0)
+    public function read($size = 0): string
     {
         if (null === $this->shmId) {
             throw new \LogicException('Please open shared memory use open() before read.');
@@ -220,9 +220,9 @@ abstract class BaseShm implements ShmInterface
      */
     abstract protected function doRead($size = 0);
 
-//////////////////////////////////////////////////////////////////////
-/// helper method
-//////////////////////////////////////////////////////////////////////
+    /*****************************************************************
+     * helper method
+     ****************************************************************/
 
     /**
      * @param string $key
@@ -251,9 +251,9 @@ abstract class BaseShm implements ShmInterface
         return [$this->errCode, $this->errMsg];
     }
 
-//////////////////////////////////////////////////////////////////////
-/// getter/setter method
-//////////////////////////////////////////////////////////////////////
+    /*****************************************************************
+     * getter/setter method
+     ****************************************************************/
 
     /**
      * @return int

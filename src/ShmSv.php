@@ -59,7 +59,7 @@ class ShmSv extends BaseShm
     /**
      * {@inheritDoc}
      */
-    public function doWrite($data)
+    public function doWrite($data): bool
     {
         return shm_put_var($this->shmId, $this->varKey, $data);
     }
@@ -97,7 +97,7 @@ class ShmSv extends BaseShm
      * remove SHM
      * @return bool
      */
-    public function remove()
+    public function remove(): bool
     {
         return shm_remove($this->shmId);
     }
@@ -105,8 +105,8 @@ class ShmSv extends BaseShm
     /**
      * @return bool
      */
-    public static function isSupported()
+    public static function isSupported(): bool
     {
-        return function_exists('shm_attach');
+        return \function_exists('shm_attach');
     }
 }

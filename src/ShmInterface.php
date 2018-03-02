@@ -25,7 +25,7 @@ interface ShmInterface
      * @param string $data
      * @return bool
      */
-    public function write($data);
+    public function write($data): bool;
 
     /**
      * @param string $data
@@ -43,7 +43,7 @@ interface ShmInterface
      * @param int $size
      * @return string
      */
-    public function read($size = 0);
+    public function read($size = 0): string;
 
     /**
      * clear

@@ -35,9 +35,9 @@ class ShmMap implements ShmMapInterface, \ArrayAccess, \Countable, \IteratorAggr
         $this->shm->open();
     }
 
-//////////////////////////////////////////////////////////////////////
-/// map method
-//////////////////////////////////////////////////////////////////////
+    /*****************************************************************
+     * map method
+     ****************************************************************/
 
     /**
      * {@inheritDoc}
@@ -67,7 +67,7 @@ class ShmMap implements ShmMapInterface, \ArrayAccess, \Countable, \IteratorAggr
     /**
      * {@inheritDoc}
      */
-    public function has($name)
+    public function has($name): bool
     {
         if ($map = $this->getMap()) {
             return isset($map[$name]);
@@ -79,7 +79,7 @@ class ShmMap implements ShmMapInterface, \ArrayAccess, \Countable, \IteratorAggr
     /**
      * {@inheritDoc}
      */
-    public function del($name)
+    public function del($name): bool
     {
         // if is empty, init.
         if (!$map = $this->getMap()) {
@@ -117,7 +117,7 @@ class ShmMap implements ShmMapInterface, \ArrayAccess, \Countable, \IteratorAggr
      * @param $data
      * @return bool
      */
-    public function rPush($data)
+    public function rPush($data): bool
     {
         if (!$map = $this->getMap()) {
             $map = [];
@@ -171,7 +171,7 @@ class ShmMap implements ShmMapInterface, \ArrayAccess, \Countable, \IteratorAggr
      * @param array $names
      * @return array
      */
-    public function gets(array $names)
+    public function gets(array $names): array
     {
         $ret = [];
         $map = $this->getMap();
@@ -189,7 +189,7 @@ class ShmMap implements ShmMapInterface, \ArrayAccess, \Countable, \IteratorAggr
      * alias of getMap()
      * @return array
      */
-    public function all()
+    public function all(): array
     {
         return $this->getMap();
     }
@@ -198,7 +198,7 @@ class ShmMap implements ShmMapInterface, \ArrayAccess, \Countable, \IteratorAggr
      * get map data
      * @return array
      */
-    public function getMap()
+    public function getMap(): array
     {
         if (!$read = $this->shm->read()) {
             return [];
@@ -213,7 +213,7 @@ class ShmMap implements ShmMapInterface, \ArrayAccess, \Countable, \IteratorAggr
      * @param bool $merge
      * @return bool
      */
-    public function setMap(array $map, $merge = false)
+    public function setMap(array $map, $merge = false): array
     {
         if (!$merge) {
             return $this->shm->write(serialize($map));
@@ -258,9 +258,9 @@ class ShmMap implements ShmMapInterface, \ArrayAccess, \Countable, \IteratorAggr
         $this->shm->close();
     }
 
-//////////////////////////////////////////////////////////////////////
-/// array access method
-//////////////////////////////////////////////////////////////////////
+    /*****************************************************************
+     * array access method
+     ****************************************************************
 
     /**
      * Checks whether an offset exists in the iterator.

@@ -71,7 +71,7 @@ final class SharedMemory
     /**
      * @return array
      */
-    public static function getDriverMap()
+    public static function getDriverMap(): array
     {
         return self::$driverMap;
     }

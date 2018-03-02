@@ -7,10 +7,11 @@
  */
 
 namespace Inhere\Shm;
-use Inhere\Library\Helpers\PhpHelper;
+
 use Inhere\Lock\Lock;
+use Inhere\Lock\SemaphoreLock;
 use Inhere\Lock\LockInterface;
-use Inhere\Library\Traits\LiteConfigTrait;
+use MyLib\SimpleConfig\LiteConfigTrait;
 
 /**
  * Class ShmSvMulti
@@ -91,7 +92,7 @@ class ShmSvMulti
             $this->key = (int)$this->config['key'];
         } else {
             // 定义共享内存
-            $this->key = $this->config['key'] = PhpHelper::ftok(__FILE__, $this->config['project']);
+            $this->key = $this->config['key'] = SemaphoreLock::ftok(__FILE__, $this->config['project']);
         }
 
         $this->config['locker']['key'] = $this->key;
@@ -104,7 +105,7 @@ class ShmSvMulti
      * @param array $map
      * @return array
      */
-    public function setMulti(array $map)
+    public function setMulti(array $map): array
     {
         $ret = [];
 
@@ -120,7 +121,7 @@ class ShmSvMulti
      * @param array $varKeys
      * @return array
      */
-    public function getMulti(array $varKeys)
+    public function getMulti(array $varKeys): array
     {
         $ret = [];
 
@@ -137,7 +138,7 @@ class ShmSvMulti
      * @param $var
      * @return bool
      */
-    public function set($varKey, $var)
+    public function set($varKey, $var): bool
     {
         $ret = false;
 
@@ -182,7 +183,7 @@ class ShmSvMulti
      * @param int $varKey
      * @return bool
      */
-    public function has($varKey)
+    public function has($varKey): bool
     {
         return shm_has_var($this->shmId, (int)$varKey);
     }
@@ -191,7 +192,7 @@ class ShmSvMulti
      * @param int $varKey
      * @return bool
      */
-    public function del($varKey)
+    public function del($varKey): bool
     {
         return shm_remove_var($this->shmId, (int)$varKey);
     }
@@ -199,7 +200,7 @@ class ShmSvMulti
     /**
      * @return bool
      */
-    public static function isSupported()
+    public static function isSupported(): bool
     {
         return function_exists('shm_attach');
     }
@@ -215,7 +216,7 @@ class ShmSvMulti
     /**
      * @return int[]
      */
-    public function getVarKeys()
+    public function getVarKeys(): array
     {
         return $this->varKeys;
     }

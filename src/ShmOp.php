@@ -58,7 +58,7 @@ class ShmOp extends BaseShm
      * @param string $data
      * @return bool
      */
-    public function doWrite($data)
+    public function doWrite($data): bool
     {
         return shmop_write($this->shmId, $data, 0) === strlen($data);
     }
@@ -76,7 +76,7 @@ class ShmOp extends BaseShm
     /**
      * @return int
      */
-    public function size()
+    public function size(): int
     {
         return shmop_size($this->shmId);
     }
@@ -110,7 +110,7 @@ class ShmOp extends BaseShm
     /**
      * @return bool
      */
-    public static function isSupported()
+    public static function isSupported(): bool
     {
         return function_exists('shmop_open');
     }
