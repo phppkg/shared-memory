@@ -56,5 +56,5 @@ interface ShmMapInterface
      * @param bool $merge
      * @return bool
      */
-    public function setMap(array $map, $merge = false): array;
+    public function setMap(array $map, $merge = false): bool;
 }

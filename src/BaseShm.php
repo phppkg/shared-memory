@@ -166,7 +166,7 @@ abstract class BaseShm implements ShmInterface
      * @return bool
      * @throws \LogicException
      */
-    public function prepend($data)
+    public function prepend($data): bool
     {
         return $this->write($data . $this->read());
     }
@@ -176,7 +176,7 @@ abstract class BaseShm implements ShmInterface
      * @return bool
      * @throws \LogicException
      */
-    public function append($data)
+    public function append($data): bool
     {
         $old = $this->read();
 
@@ -216,9 +216,9 @@ abstract class BaseShm implements ShmInterface
 
     /**
      * @param int $size
-     * @return bool
+     * @return string
      */
-    abstract protected function doRead($size = 0);
+    abstract protected function doRead($size = 0): string ;
 
     /*****************************************************************
      * helper method
@@ -229,7 +229,7 @@ abstract class BaseShm implements ShmInterface
      * @param int $timeout
      * @return bool
      */
-    public function lock($key, $timeout = 3)
+    public function lock($key, $timeout = 3): bool
     {
         return $this->locker->lock($key, $timeout);
     }
@@ -238,7 +238,7 @@ abstract class BaseShm implements ShmInterface
      * @param string $key
      * @return bool
      */
-    public function unlock($key)
+    public function unlock($key): bool
     {
         return $this->locker->unlock($key);
     }

@@ -67,7 +67,7 @@ class ShmSv extends BaseShm
     /**
      * {@inheritDoc}
      */
-    public function doRead($size = 0)
+    public function doRead($size = 0): string
     {
         return shm_get_var($this->shmId, $this->varKey);
     }
@@ -75,7 +75,7 @@ class ShmSv extends BaseShm
     /**
      * @return bool
      */
-    public function clear()
+    public function clear(): bool
     {
         return shm_remove_var($this->shmId, $this->varKey);
     }
@@ -83,7 +83,7 @@ class ShmSv extends BaseShm
     /**
      * {@inheritDoc}
      */
-    public function close()
+    public function close(): bool
     {
         $this->clear();
 

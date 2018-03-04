@@ -57,7 +57,7 @@ final class SharedMemory
     /**
      * @return bool
      */
-    public static function isSupported()
+    public static function isSupported(): bool
     {
         foreach (self::$driverMap as $class) {
             if ($class::isSupported()){

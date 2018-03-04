@@ -52,7 +52,7 @@ class ShmMap implements ShmMapInterface, \ArrayAccess, \Countable, \IteratorAggr
     /**
      * {@inheritDoc}
      */
-    public function set($name, $value)
+    public function set($name, $value): bool
     {
         // if is empty, init.
         if (!$map = $this->getMap()) {
@@ -101,7 +101,7 @@ class ShmMap implements ShmMapInterface, \ArrayAccess, \Countable, \IteratorAggr
      * @param $data
      * @return bool
      */
-    public function lPush($data)
+    public function lPush($data): bool
     {
         if (!$map = $this->getMap()) {
             $map = [];
@@ -162,7 +162,7 @@ class ShmMap implements ShmMapInterface, \ArrayAccess, \Countable, \IteratorAggr
      * @param array $map
      * @return bool
      */
-    public function sets(array $map)
+    public function sets(array $map): bool
     {
         return $this->setMap($map, true);
     }
@@ -213,7 +213,7 @@ class ShmMap implements ShmMapInterface, \ArrayAccess, \Countable, \IteratorAggr
      * @param bool $merge
      * @return bool
      */
-    public function setMap(array $map, $merge = false): array
+    public function setMap(array $map, $merge = false): bool
     {
         if (!$merge) {
             return $this->shm->write(serialize($map));
@@ -237,7 +237,7 @@ class ShmMap implements ShmMapInterface, \ArrayAccess, \Countable, \IteratorAggr
     /**
      * @return string
      */
-    public function getDriver()
+    public function getDriver(): string
     {
         return $this->shm->getDriver();
     }

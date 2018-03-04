@@ -202,13 +202,13 @@ class ShmSvMulti
      */
     public static function isSupported(): bool
     {
-        return function_exists('shm_attach');
+        return \function_exists('shm_attach');
     }
 
     /**
      * @return LockInterface
      */
-    public function getLocker()
+    public function getLocker(): LockInterface
     {
         return $this->locker;
     }

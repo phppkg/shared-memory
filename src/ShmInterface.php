@@ -31,13 +31,13 @@ interface ShmInterface
      * @param string $data
      * @return bool
      */
-    public function prepend($data);
+    public function prepend($data): bool;
 
     /**
      * @param string $data
      * @return bool
      */
-    public function append($data);
+    public function append($data): bool;
 
     /**
      * @param int $size
@@ -49,13 +49,13 @@ interface ShmInterface
      * clear
      * @return bool
      */
-    public function clear();
+    public function clear(): bool ;
 
     /**
      * close
      * @return bool
      */
-    public function close();
+    public function close(): bool;
 
     /**
      * @return string
