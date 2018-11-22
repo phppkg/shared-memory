@@ -1,8 +1,8 @@
 # php 共享内存
 
-[![License](https://img.shields.io/packagist/l/php-comp/lock.svg?style=flat-square)](LICENSE)
-[![Php Version](https://img.shields.io/badge/php-%3E=7.0-brightgreen.svg?maxAge=2592000)](https://packagist.org/packages/php-comp/lock)
-[![Latest Stable Version](http://img.shields.io/packagist/v/php-comp/lock.svg)](https://packagist.org/packages/php-comp/lock)
+[![License](https://img.shields.io/packagist/l/php-comp/shm.svg?style=flat-square)](LICENSE)
+[![Php Version](https://img.shields.io/badge/php-%3E=7.0-brightgreen.svg?maxAge=2592000)](https://packagist.org/packages/php-comp/shm)
+[![Latest Stable Version](http://img.shields.io/packagist/v/php-comp/shm.svg)](https://packagist.org/packages/php-comp/shm)
 
 php 共享内存操作的实现。基于 
 
