@@ -6,24 +6,21 @@
  * Time: 下午9:44
  */
 
-namespace Inhere\Shm;
+namespace PhpComp\Shm;
 
-use Inhere\Lock\Lock;
-use Inhere\Lock\SemaphoreLock;
-use Inhere\Lock\LockInterface;
-use MyLib\SimpleConfig\LiteConfigTrait;
+use PhpComp\Lock\Lock;
+use PhpComp\Lock\LockInterface;
+use PhpComp\Lock\SemaphoreLock;
 
 /**
  * Class ShmSvMulti
  *  - powered by system v shm. require enable  --enable-sysvshm
  *  - only support *nix system
  *
- * @package Inhere\Shm
+ * @package PhpComp\Shm
  */
 class ShmSvMulti
 {
-    use LiteConfigTrait;
-
     /**
      * @var LockInterface
      */
@@ -235,5 +232,32 @@ class ShmSvMulti
     public function getShmId()
     {
         return $this->shmId;
+    }
+
+    /**
+     * Method to get property Options
+     * @param string|null $key
+     * @return array
+     */
+    public function getConfig(string $key = null)
+    {
+        if ($key) {
+            return $this->config[$key] ?? null;
+        }
+
+        return $this->config;
+    }
+
+    /**
+     * Method to set property config
+     * @param  array $config
+     * @param  bool $merge
+     * @return static Return self to support chaining.
+     */
+    public function setConfig(array $config, $merge = true)
+    {
+        $this->config = $merge ? array_merge($this->config, $config) : $config;
+
+        return $this;
     }
 }

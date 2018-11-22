@@ -8,8 +8,8 @@
 
 require dirname(__DIR__) . '/../../autoload.php';
 
-use Inhere\Shm\SharedMemory;
-use Inhere\Shm\ShmMap;
+use PhpComp\Shm\SharedMemory;
+use PhpComp\Shm\ShmMap;
 
 $shm = SharedMemory::make([
     'key' => 1,

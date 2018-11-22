@@ -6,11 +6,11 @@
  * Time: 上午12:55
  */
 
-namespace Inhere\Shm;
+namespace PhpComp\Shm;
 
 /**
  * Interface ShmMapInterface - 可以当做是共享内存的数组结构
- * @package Inhere\Shm
+ * @package PhpComp\Shm
  */
 interface ShmMapInterface
 {

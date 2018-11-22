@@ -6,21 +6,18 @@
  * Time: 下午9:46
  */
 
-namespace Inhere\Shm;
+namespace PhpComp\Shm;
 
-use Inhere\Lock\Lock;
-use Inhere\Lock\LockInterface;
-use Inhere\Lock\SemaphoreLock;
-use MyLib\SimpleConfig\LiteConfigTrait;
+use PhpComp\Lock\Lock;
+use PhpComp\Lock\LockInterface;
+use PhpComp\Lock\SemaphoreLock;
 
 /**
  * Class BaseShm
- * @package Inhere\Shm
+ * @package PhpComp\Shm
  */
 abstract class BaseShm implements ShmInterface
 {
-    use LiteConfigTrait;
-
     /**
      * @var string
      */
@@ -218,7 +215,7 @@ abstract class BaseShm implements ShmInterface
      * @param int $size
      * @return string
      */
-    abstract protected function doRead($size = 0): string ;
+    abstract protected function doRead($size = 0): string;
 
     /*****************************************************************
      * helper method
@@ -254,6 +251,33 @@ abstract class BaseShm implements ShmInterface
     /*****************************************************************
      * getter/setter method
      ****************************************************************/
+
+    /**
+     * Method to get property Options
+     * @param string|null $key
+     * @return array
+     */
+    public function getConfig(string $key = null)
+    {
+        if ($key) {
+            return $this->config[$key] ?? null;
+        }
+
+        return $this->config;
+    }
+
+    /**
+     * Method to set property config
+     * @param  array $config
+     * @param  bool $merge
+     * @return static Return self to support chaining.
+     */
+    public function setConfig(array $config, $merge = true)
+    {
+        $this->config = $merge ? array_merge($this->config, $config) : $config;
+
+        return $this;
+    }
 
     /**
      * @return int

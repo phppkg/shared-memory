@@ -6,14 +6,14 @@
  * Time: 下午9:44
  */
 
-namespace Inhere\Shm;
+namespace PhpComp\Shm;
 
 /**
  * Class ShmSv
  *  - powered by system v shm. require enable  --enable-sysvshm
  *  - only support *nix system
  *
- * @package Inhere\Shm
+ * @package PhpComp\Shm
  */
 class ShmSv extends BaseShm
 {

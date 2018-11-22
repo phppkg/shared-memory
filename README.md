@@ -1,5 +1,9 @@
 # php 共享内存
 
+[![License](https://img.shields.io/packagist/l/php-comp/lock.svg?style=flat-square)](LICENSE)
+[![Php Version](https://img.shields.io/badge/php-%3E=7.0-brightgreen.svg?maxAge=2592000)](https://packagist.org/packages/php-comp/lock)
+[![Latest Stable Version](http://img.shields.io/packagist/v/php-comp/lock.svg)](https://packagist.org/packages/php-comp/lock)
+
 php 共享内存操作的实现。基于 
 
 - sysvshm扩展：实现system v方式的共享内存 `linux/mac`
@@ -17,7 +21,7 @@ php 共享内存操作的实现。基于
 ```json
 {
     "require": {
-        "inhere/shm": "dev-master"
+        "php-comp/shm": "dev-master"
     }
 }
 ```
@@ -25,16 +29,15 @@ php 共享内存操作的实现。基于
 - 直接拉取
 
 ```bash
-git clone https://git.oschina.net/inhere/php-shared-memory.git // git@osc
-git clone https://github.com/inhere/php-shared-memory.git // github
+git clone https://github.com/php-comp/shared-memory.git // github
 ```
 
 ## 使用
 
 ```php
 
-use Inhere\Shm\ShmFactory;
-use Inhere\Shm\ShmMap;
+use PhpComp\Shm\ShmFactory;
+use PhpComp\Shm\ShmMap;
 
 $shm = ShmFactory::make([
     'key' => 1,
@@ -60,9 +63,8 @@ var_dump($shmAry['three'], $shmAry->getMap());
 unset($shmAry['two']);
 
 var_dump($shmAry->getMap());
-
 ```
 
 ## License
 
-MIT
+[MIT](LICENSE)

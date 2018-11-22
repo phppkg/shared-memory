@@ -6,11 +6,11 @@
  * Time: 下午8:19
  */
 
-namespace Inhere\Shm;
+namespace PhpComp\Shm;
 
 /**
  * Class ShmFactory
- * @package Inhere\Shm
+ * @package PhpComp\Shm
  */
 final class SharedMemory
 {
@@ -41,7 +41,7 @@ final class SharedMemory
         /** @var ShmInterface $class */
         if (!isset(self::$driverMap[$driver])) {
             foreach (self::$driverMap as $class) {
-                if ($class::isSupported()){
+                if ($class::isSupported()) {
                     return new $class($config);
                 }
             }
@@ -60,7 +60,7 @@ final class SharedMemory
     public static function isSupported(): bool
     {
         foreach (self::$driverMap as $class) {
-            if ($class::isSupported()){
+            if ($class::isSupported()) {
                 return true;
             }
         }

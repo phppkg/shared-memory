@@ -6,14 +6,14 @@
  * Time: 下午9:43
  */
 
-namespace Inhere\Shm;
+namespace PhpComp\Shm;
 
 /**
  * Class ShmOp
  *  - require enable --enable-shmop
  *  - support *nix and windows
  *
- * @package Inhere\Shm
+ * @package PhpComp\Shm
  */
 class ShmOp extends BaseShm
 {

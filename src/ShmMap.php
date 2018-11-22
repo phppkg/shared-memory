@@ -6,7 +6,7 @@
  * Time: 下午9:43
  */
 
-namespace Inhere\Shm;
+namespace PhpComp\Shm;
 
 /**
  * Class ShmOpMap 可以当做是共享内存的数组结构(读取都会自动加锁)
@@ -14,7 +14,7 @@ namespace Inhere\Shm;
  *  - require enable --enable-shmop
  *  - support *nix and windows
  *
- * @package Inhere\Shm
+ * @package PhpComp\Shm
  */
 class ShmMap implements ShmMapInterface, \ArrayAccess, \Countable, \IteratorAggregate
 {
@@ -261,8 +261,8 @@ class ShmMap implements ShmMapInterface, \ArrayAccess, \Countable, \IteratorAggr
     /*****************************************************************
      * array access method
      ****************************************************************
-
-    /**
+     *
+     * /**
      * Checks whether an offset exists in the iterator.
      * @param   mixed $offset The array offset.
      * @return  boolean  True if the offset exists, false otherwise.

@@ -6,11 +6,11 @@
  * Time: 下午7:40
  */
 
-namespace Inhere\Shm;
+namespace PhpComp\Shm;
 
 /**
  * Interface ShmInterface
- * @package Inhere\Shm
+ * @package PhpComp\Shm
  *
  * @property string $driver
  */
@@ -49,7 +49,7 @@ interface ShmInterface
      * clear
      * @return bool
      */
-    public function clear(): bool ;
+    public function clear(): bool;
 
     /**
      * close
