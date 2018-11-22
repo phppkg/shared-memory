@@ -22,7 +22,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Inhere\\Shm\\": "src/"
+            "PhpComp\\Shm\\": "src/"
         }
     },
     "suggest": {
