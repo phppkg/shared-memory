@@ -26,6 +26,6 @@
         }
     },
     "suggest": {
-        "inhere/console": "a lightweight php console application library.",
+        "inhere/console": "a lightweight php console application library."
     }
 }
