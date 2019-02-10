@@ -204,7 +204,13 @@ class ShmMap implements ShmMapInterface, \ArrayAccess, \Countable, \IteratorAggr
             return [];
         }
 
-        return unserialize(trim($read), ['allowed_classes' => false]);
+        $map = unserialize(trim($read), ['allowed_classes' => false]);
+
+        if (!is_array($map)) {
+            $map = [];
+        }
+
+        return $map;
     }
 
     /**
